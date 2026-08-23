@@ -54,5 +54,8 @@ LOGGING["root"]["level"] = "WARNING"  # noqa: F405
 # Steam API key for testing
 STEAM_API_KEY = "test_steam_api_key"
 
+# TVDB API key for testing
+TVDB_API_KEY = "test_tvdb_api_key"
+
 # Trakt API key for testing (production default is empty; see #464)
 TRAKT_API = "test_trakt_api_key"
