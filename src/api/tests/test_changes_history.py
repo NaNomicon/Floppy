@@ -1,9 +1,27 @@
+from unittest.mock import patch
+
 from .base import FloppyApiTestCase
 from .helpers import check_changes_history_entry_structure, check_pagination_structure
 
 
 class ChangesHistoryTests(FloppyApiTestCase):
     """Validate changes history endpoint contracts."""
+
+    def setUp(self):
+        """Use an authoritative episode list for episode-route tests."""
+        super().setUp()
+        self._episode_metadata_patcher = patch(
+            "api.views.services.get_media_metadata",
+            return_value={
+                "episodes": [
+                    {"episode_number": episode_number}
+                    for episode_number in (1, 2, 3)
+                ],
+                "related": {"seasons": [{"season_number": 1}]},
+            },
+        )
+        self._episode_metadata_patcher.start()
+        self.addCleanup(self._episode_metadata_patcher.stop)
 
     def test_changes_history_get(self):
         """Changes-history list should return paginated entries with expected shape."""
